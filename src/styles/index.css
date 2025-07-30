@@ -10,3 +10,142 @@ body {
   font-family: inherit;
   margin: unset;
 }
+
+/* Edit Mode Styles */
+.edit-mode {
+  position: relative;
+}
+
+.edit-mode section:hover {
+  outline: 2px dashed #3b82f6;
+  outline-offset: 4px;
+}
+
+.edit-mode .edit-indicator {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.edit-indicator {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Block Editor Styles */
+.block-selected {
+  outline: 2px solid #3b82f6 !important;
+  outline-offset: 2px;
+}
+
+.block-hover {
+  outline: 1px dashed #3b82f6;
+  outline-offset: 2px;
+}
+
+.block-controls {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  display: flex;
+  gap: 4px;
+  z-index: 10;
+}
+
+.block-control-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.block-control-btn:hover {
+  background: #2563eb;
+}
+
+/* Drag and Drop Styles */
+.palette-item {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.palette-item.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+
+.draggable-block.dragging {
+  opacity: 0.3;
+  transform: scale(0.98);
+}
+
+.drop-zone-indicator {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drop-zone-indicator.active::before {
+  content: "Drop here";
+  position: absolute;
+  background: #3b82f6;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.drop-zone {
+  transition: all 0.2s ease-in-out;
+}
+
+.drop-zone.drag-over {
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 2px dashed #3b82f6;
+}
+
+.drop-zone.active {
+  min-height: 40px;
+}
+
+/* Prevent text selection during drag */
+.dragging-active {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+  .palette-item {
+    touch-action: none;
+  }
+
+  .draggable-block {
+    touch-action: none;
+  }
+}
+
+/* Top bar spacing adjustment */
+.main-content-with-topbar {
+  padding-top: 5rem; /* Adjust for header + top bar height */
+}
+
+@media (max-width: 1024px) {
+  .main-content-with-topbar {
+    padding-top: 4.5rem;
+  }
+}

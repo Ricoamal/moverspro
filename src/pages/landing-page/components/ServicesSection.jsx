@@ -1,8 +1,10 @@
 import React from 'react';
+import { useWebsiteBuilder } from '../../../contexts/WebsiteBuilderContext';
 import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
 
-const ServicesSection = () => {
+const ServicesSection = ({ isEditMode = false }) => {
+  const { setSelectedBlock } = useWebsiteBuilder();
   const services = [
     {
       id: 1,
@@ -10,7 +12,7 @@ const ServicesSection = () => {
       title: "Residential Moving",
       description: "Complete home relocation services with professional packing, loading, and unpacking. Perfect for apartments, houses, and condos.",
       features: ["Professional Packing", "Furniture Assembly", "Fragile Item Care"],
-      image: "https://images.pexels.com/photos/7464230/pexels-photo-7464230.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/assets/images/services/Residential-Moving.png"
     },
     {
       id: 2,
@@ -18,7 +20,7 @@ const ServicesSection = () => {
       title: "Commercial Moving",
       description: "Minimize business downtime with our efficient office and commercial moving solutions. We handle everything from desks to servers.",
       features: ["Minimal Downtime", "IT Equipment Care", "Weekend Service"],
-      image: "https://images.pixabay.com/photo/2016/11/19/14/00/code-1839406_960_720.jpg"
+      image: "/assets/images/services/Commercial-Moving.png"
     },
     {
       id: 3,
@@ -26,7 +28,7 @@ const ServicesSection = () => {
       title: "Packing Services",
       description: "Professional packing with high-quality materials. We pack everything from delicate items to bulky furniture with care.",
       features: ["Quality Materials", "Expert Techniques", "Item Protection"],
-      image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      image: "/assets/images/services/Packing-Services.png"
     },
     {
       id: 4,
@@ -34,7 +36,7 @@ const ServicesSection = () => {
       title: "Storage Solutions",
       description: "Secure, climate-controlled storage facilities for short-term and long-term needs. Access your items anytime.",
       features: ["Climate Controlled", "24/7 Security", "Flexible Terms"],
-      image: "https://images.pexels.com/photos/4246120/pexels-photo-4246120.jpeg?auto=compress&cs=tinysrgb&w=400"
+      image: "/assets/images/services/storage.png"
     },
     {
       id: 5,
@@ -42,7 +44,7 @@ const ServicesSection = () => {
       title: "Insurance Coverage",
       description: "Comprehensive protection for your belongings during the move. Multiple coverage options available.",
       features: ["Full Coverage", "Quick Claims", "Peace of Mind"],
-      image: "https://images.pixabay.com/photo/2017/06/10/07/18/list-2389219_960_720.jpg"
+      image: "/assets/images/services/insurance.png"
     },
     {
       id: 6,
@@ -50,12 +52,40 @@ const ServicesSection = () => {
       title: "Long Distance",
       description: "Reliable long-distance moving services across Kenya. Real-time tracking and regular updates throughout your move.",
       features: ["GPS Tracking", "Regular Updates", "Nationwide Coverage"],
-      image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      image: "/assets/images/services/long-distance.png"
     }
   ];
 
+  const handleSectionClick = () => {
+    if (isEditMode) {
+      const servicesBlock = {
+        id: 'services-section',
+        type: 'services_grid',
+        content: {
+          title: 'Our Moving Services',
+          description: 'From residential moves to commercial relocations, we provide comprehensive moving solutions tailored to your specific needs.',
+          services: services
+        }
+      };
+      setSelectedBlock(servicesBlock);
+    }
+  };
+
   return (
-    <section id="services-section" className="py-16 lg:py-20 bg-white">
+    <section
+      id="services-section"
+      className={`py-16 lg:py-20 bg-white relative ${
+        isEditMode ? 'cursor-pointer hover:ring-2 hover:ring-primary hover:ring-opacity-50 transition-all' : ''
+      }`}
+      onClick={handleSectionClick}>
+      {/* Edit Mode Indicator */}
+      {isEditMode && (
+        <div className="absolute top-4 left-4 z-10 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+          <Icon name="Edit" size={14} className="inline mr-1" />
+          Services Section
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">

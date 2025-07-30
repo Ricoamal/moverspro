@@ -99,7 +99,8 @@ const BlockPalette = () => {
                 key={block.id}
                 {...getPaletteItemProps(block.type, block.category)}
                 onClick={() => handleBlockClick(block)}
-                className="group bg-white border border-gray-200 rounded-lg p-4 hover:border-primary hover:shadow-md transition-all cursor-grab active:cursor-grabbing"
+                className="group bg-white border border-gray-200 rounded-lg p-4 hover:border-primary hover:shadow-md transition-all cursor-grab active:cursor-grabbing select-none"
+                style={{ touchAction: 'none' }}
               >
                 {/* Block Preview */}
                 <div className="aspect-video bg-gray-100 rounded-md mb-3 flex items-center justify-center overflow-hidden">

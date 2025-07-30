@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useWebsiteBuilder } from '../../../contexts/WebsiteBuilderContext';
 import Icon from '../../../components/AppIcon';
 import Button from '../../../components/ui/Button';
 import Input from '../../../components/ui/Input';
 
-const ContactSection = () => {
+const ContactSection = ({ isEditMode = false }) => {
+  const { setSelectedBlock } = useWebsiteBuilder();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -43,25 +45,25 @@ const ContactSection = () => {
     {
       icon: "Phone",
       title: "Call Us",
-      details: ["+254 700 123 456", "+254 733 987 654"],
+      details: ["+254 710 437908"],
       description: "Available 24/7 for emergencies"
     },
     {
       icon: "Mail",
       title: "Email Us",
-      details: ["info@moveeasepro.co.ke", "support@moveeasepro.co.ke"],
+      details: ["info@longonotmovers.co.ke"],
       description: "We respond within 2 hours"
     },
     {
       icon: "MapPin",
       title: "Visit Us",
-      details: ["Westlands, Nairobi", "Mombasa Road, Nairobi"],
+      details: ["Nairobi, Kenya"],
       description: "Mon-Sat: 8AM-6PM"
     },
     {
       icon: "MessageCircle",
       title: "WhatsApp",
-      details: ["+254 700 123 456"],
+      details: ["+254 710 437908"],
       description: "Quick responses via WhatsApp"
     }
   ];
@@ -71,8 +73,36 @@ const ContactSection = () => {
     "Nakuru County", "Eldoret", "Thika", "Machakos", "Kiambu"
   ];
 
+  const handleSectionClick = () => {
+    if (isEditMode) {
+      const contactBlock = {
+        id: 'contact-section',
+        type: 'contact_form',
+        content: {
+          title: 'Get Your Free Moving Quote',
+          description: 'Ready to move? Contact us today for a personalized quote and let our experts handle your relocation needs.',
+          contactInfo: contactInfo,
+          serviceAreas: serviceAreas
+        }
+      };
+      setSelectedBlock(contactBlock);
+    }
+  };
+
   return (
-    <section className="py-16 lg:py-20 bg-white">
+    <section
+      className={`py-16 lg:py-20 bg-white relative ${
+        isEditMode ? 'cursor-pointer hover:ring-2 hover:ring-primary hover:ring-opacity-50 transition-all' : ''
+      }`}
+      onClick={handleSectionClick}>
+      {/* Edit Mode Indicator */}
+      {isEditMode && (
+        <div className="absolute top-4 left-4 z-10 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+          <Icon name="Edit" size={14} className="inline mr-1" />
+          Contact Section
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">

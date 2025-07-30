@@ -8,11 +8,20 @@ const LoginHeader = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/landing-page" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Icon name="Truck" size={20} color="white" />
+          <Link to="/" className="flex items-center space-x-3">
+            <img
+              src="/assets/images/logos/longonot-logo.png"
+              alt="Longonot Movers"
+              className="h-10 w-auto"
+              onError={(e) => {
+                // Fallback to icon if image fails to load
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'flex';
+              }}
+            />
+            <div className="w-10 h-10 bg-primary rounded-lg items-center justify-center hidden">
+              <Icon name="Truck" size={24} color="white" />
             </div>
-            <span className="text-xl font-semibold text-gray-900">MoveEase Pro</span>
           </Link>
 
           {/* Back to Home Link */}

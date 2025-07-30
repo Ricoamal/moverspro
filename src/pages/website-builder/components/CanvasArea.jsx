@@ -94,7 +94,14 @@ const CanvasArea = () => {
           {currentPage.blocks.length === 0 ? (
             // Empty State
             <div className="min-h-screen flex items-center justify-center">
-              <div {...getDropZoneProps(0)} className="text-center p-12">
+              <div
+                {...getDropZoneProps(0)}
+                className={`text-center p-12 transition-all duration-200 ${
+                  dragOverIndex === 0 ? 'bg-blue-50 border-2 border-dashed border-blue-300 scale-105' :
+                  isDragging ? 'border-2 border-dashed border-gray-300' : ''
+                }`}
+                style={{ borderRadius: '12px', minWidth: '400px' }}
+              >
                 <Icon name="Plus" size={48} className="mx-auto mb-4 text-gray-400" />
                 <h3 className="text-xl font-medium text-gray-900 mb-2">Start Building Your Page</h3>
                 <p className="text-gray-600 mb-6">
@@ -111,7 +118,17 @@ const CanvasArea = () => {
             // Blocks
             <div className="relative">
               {/* Drop zone at the top */}
-              <div {...getDropZoneProps(0)} />
+              <div
+                {...getDropZoneProps(0)}
+                className={`drop-zone-indicator ${dragOverIndex === 0 ? 'active' : ''}`}
+                style={{
+                  height: isDragging ? '40px' : '8px',
+                  transition: 'height 0.2s ease-in-out',
+                  backgroundColor: dragOverIndex === 0 ? '#3b82f6' : 'transparent',
+                  borderRadius: '4px',
+                  margin: '4px 0'
+                }}
+              />
 
               {currentPage.blocks.map((block, index) => (
                 <div key={block.id} className="relative">
@@ -198,7 +215,17 @@ const CanvasArea = () => {
                   </div>
 
                   {/* Drop zone after each block */}
-                  <div {...getDropZoneProps(index + 1)} />
+                  <div
+                    {...getDropZoneProps(index + 1)}
+                    className={`drop-zone-indicator ${dragOverIndex === index + 1 ? 'active' : ''}`}
+                    style={{
+                      height: isDragging ? '40px' : '8px',
+                      transition: 'height 0.2s ease-in-out',
+                      backgroundColor: dragOverIndex === index + 1 ? '#3b82f6' : 'transparent',
+                      borderRadius: '4px',
+                      margin: '4px 0'
+                    }}
+                  />
                 </div>
               ))}
             </div>

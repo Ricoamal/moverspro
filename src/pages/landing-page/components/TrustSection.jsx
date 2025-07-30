@@ -1,8 +1,10 @@
 import React from 'react';
+import { useWebsiteBuilder } from '../../../contexts/WebsiteBuilderContext';
 import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
 
-const TrustSection = () => {
+const TrustSection = ({ isEditMode = false }) => {
+  const { setSelectedBlock } = useWebsiteBuilder();
   const testimonials = [
     {
       id: 1,
@@ -71,8 +73,36 @@ const TrustSection = () => {
     { label: "Team Members", value: "50+", icon: "UserCheck" }
   ];
 
+  const handleSectionClick = () => {
+    if (isEditMode) {
+      const trustBlock = {
+        id: 'trust-section',
+        type: 'testimonials',
+        content: {
+          title: 'Trusted by Thousands of Kenyans',
+          description: 'Our commitment to excellence has earned us the trust of families and businesses across Kenya.',
+          testimonials: testimonials,
+          stats: stats
+        }
+      };
+      setSelectedBlock(trustBlock);
+    }
+  };
+
   return (
-    <section className="py-16 lg:py-20 bg-gray-50">
+    <section
+      className={`py-16 lg:py-20 bg-gray-50 relative ${
+        isEditMode ? 'cursor-pointer hover:ring-2 hover:ring-primary hover:ring-opacity-50 transition-all' : ''
+      }`}
+      onClick={handleSectionClick}>
+      {/* Edit Mode Indicator */}
+      {isEditMode && (
+        <div className="absolute top-4 left-4 z-10 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+          <Icon name="Edit" size={14} className="inline mr-1" />
+          Trust Section
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">

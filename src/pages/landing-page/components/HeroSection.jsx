@@ -1,122 +1,215 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useWebsiteBuilder } from '../../../contexts/WebsiteBuilderContext';
 import Icon from '../../../components/AppIcon';
-import Image from '../../../components/AppImage';
 import Button from '../../../components/ui/Button';
 
-const HeroSection = () => {
+const HeroSection = ({ isEditMode = false }) => {
   const navigate = useNavigate();
+  const { setSelectedBlock } = useWebsiteBuilder();
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Hero slides data
+  const slides = [
+    {
+      id: 1,
+      title: 'Professional Moving Services',
+      subtitle: 'Made Simple',
+      description: 'Get instant quotes, track your move, and enjoy stress-free relocation with Kenya\'s most trusted moving company.',
+      backgroundImage: '/assets/images/hero/longonot-slider-1.jpg',
+      buttons: [
+        { text: 'Get Free Quote', action: () => navigate('/cost-calculator'), style: 'primary' },
+        { text: 'Learn More', action: () => handleLearnMore(), style: 'secondary' }
+      ]
+    },
+    {
+      id: 2,
+      title: 'Residential Moving Experts',
+      subtitle: 'Home Relocation Services',
+      description: 'Professional home moving services across Kenya. We handle everything from packing to unpacking with care.',
+      backgroundImage: '/assets/images/hero/longonot-slider-2.png',
+      buttons: [
+        { text: 'Get Home Quote', action: () => navigate('/cost-calculator?type=residential'), style: 'primary' },
+        { text: 'View Services', action: () => navigate('/services'), style: 'secondary' }
+      ]
+    },
+    {
+      id: 3,
+      title: 'Office Relocation Specialists',
+      subtitle: 'Business Moving Services',
+      description: 'Minimize downtime with our efficient office moving services. We understand your business needs.',
+      backgroundImage: '/assets/images/hero/longonot-slider-3.png',
+      buttons: [
+        { text: 'Get Office Quote', action: () => navigate('/cost-calculator?type=office'), style: 'primary' },
+        { text: 'Our Work', action: () => navigate('/work'), style: 'secondary' }
+      ]
+    }
+  ];
+
+  // Auto-play functionality
+  useEffect(() => {
+    if (!isEditMode) {
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [isEditMode, slides.length]);
 
   const handleCalculateCost = () => {
     navigate('/cost-calculator');
   };
 
   const handleLearnMore = () => {
-    document.getElementById('services-section').scrollIntoView({ 
-      behavior: 'smooth' 
-    });
+    const servicesSection = document.getElementById('services-section');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
-  return (
-    <section className="relative bg-gradient-to-br from-blue-50 to-white pt-20 pb-16 lg:pt-24 lg:pb-20 overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-10 left-10 w-20 h-20 bg-primary rounded-full"></div>
-        <div className="absolute top-32 right-20 w-16 h-16 bg-accent rounded-full"></div>
-        <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-secondary rounded-full"></div>
-      </div>
+  // Navigation functions
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <div className="text-center lg:text-left">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-              Professional Moving Services
-              <span className="block text-primary">Made Simple</span>
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
+  const handleSectionClick = () => {
+    if (isEditMode) {
+      const heroBlock = {
+        id: 'hero-section',
+        type: 'hero_carousel',
+        content: {
+          slides: slides,
+          currentSlide: currentSlide
+        }
+      };
+      setSelectedBlock(heroBlock);
+    }
+  };
+
+  const currentSlideData = slides[currentSlide];
+
+  return (
+    <section
+      className={`relative min-h-screen flex items-center justify-center overflow-hidden ${
+        isEditMode ? 'cursor-pointer hover:ring-2 hover:ring-primary hover:ring-opacity-50 transition-all' : ''
+      }`}
+      onClick={handleSectionClick}>
+      
+      {/* Background Image with Smooth Transitions - Full Width */}
+      <div
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out"
+        style={{
+          backgroundImage: currentSlideData.backgroundImage
+            ? `url(${currentSlideData.backgroundImage})`
+            : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+        }}
+      />
+
+      {/* Blue Background - Right Half Only (where text is) */}
+      <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 opacity-95" />
+
+      {/* Subtle overlay for better text readability */}
+      <div className="absolute inset-y-0 right-0 w-1/2 bg-black bg-opacity-20" />
+
+      {/* Edit Mode Indicator */}
+      {isEditMode && (
+        <div className="absolute top-4 left-4 z-30 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+          <Icon name="Edit" size={14} className="inline mr-1" />
+          Hero Carousel
+        </div>
+      )}
+
+      {/* 2-Column Layout */}
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen">
+          {/* Left Column - Empty for background image visibility */}
+          <div className="hidden lg:block"></div>
+          
+          {/* Right Column - Content */}
+          <div className="text-center lg:text-left relative z-10 px-6 lg:px-8">
+            {/* Subtitle */}
+            <p className="text-lg sm:text-xl text-blue-100 font-medium mb-4 opacity-90 transition-all duration-500">
+              {currentSlideData.subtitle}
+            </p>
+
+            {/* Title */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight transition-all duration-500 drop-shadow-lg">
+              {currentSlideData.title}
             </h1>
-            
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
-              Get instant quotes, track your move, and enjoy stress-free relocation with Kenya's most trusted moving company. From residential to commercial moves, we've got you covered.
+
+            {/* Description */}
+            <p className="text-xl text-gray-100 mb-8 leading-relaxed transition-all duration-500 drop-shadow-sm">
+              {currentSlideData.description}
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button
-                variant="default"
-                size="lg"
-                onClick={handleCalculateCost}
-                iconName="Calculator"
-                iconPosition="left"
-                className="text-lg px-8 py-4"
-              >
-                Calculate Cost Now
-              </Button>
-              
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={handleLearnMore}
-                iconName="ArrowDown"
-                iconPosition="right"
-                className="text-lg px-8 py-4"
-              >
-                Learn More
-              </Button>
-            </div>
-
-            {/* Trust Indicators */}
-            <div className="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-8">
-              <div className="flex items-center space-x-2">
-                <Icon name="Shield" size={20} className="text-green-500" />
-                <span className="text-sm text-gray-600">Fully Insured</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Icon name="Clock" size={20} className="text-blue-500" />
-                <span className="text-sm text-gray-600">24/7 Support</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Icon name="Star" size={20} className="text-yellow-500" />
-                <span className="text-sm text-gray-600">5-Star Rated</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Hero Image */}
-          <div className="relative">
-            <div className="relative z-10">
-              <Image
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Professional movers loading boxes into truck"
-                className="w-full h-96 lg:h-[500px] object-cover rounded-2xl shadow-elevated"
-              />
-            </div>
-            
-            {/* Floating Cards */}
-            <div className="absolute -top-4 -left-4 bg-white p-4 rounded-xl shadow-card z-20 hidden lg:block">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Icon name="CheckCircle" size={24} className="text-green-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">500+ Moves</p>
-                  <p className="text-sm text-gray-600">Completed This Month</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute -bottom-4 -right-4 bg-white p-4 rounded-xl shadow-card z-20 hidden lg:block">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Icon name="Truck" size={24} className="text-blue-600" />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Same Day</p>
-                  <p className="text-sm text-gray-600">Service Available</p>
-                </div>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
+              {currentSlideData.buttons.map((button, index) => (
+                <Button
+                  key={index}
+                  variant={button.style === 'primary' ? 'default' : 'outline'}
+                  size="lg"
+                  onClick={button.action}
+                  className={`transition-all duration-300 ${
+                    button.style === 'primary'
+                      ? 'bg-white text-blue-600 hover:bg-gray-100'
+                      : 'border-2 border-white text-white hover:bg-white hover:text-blue-600'
+                  }`}
+                >
+                  {button.text}
+                </Button>
+              ))}
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Navigation Arrows */}
+      {slides.length > 1 && (
+        <>
+          <button
+            onClick={prevSlide}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-all z-20 backdrop-blur-sm"
+          >
+            <Icon name="ChevronLeft" size={24} />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-all z-20 backdrop-blur-sm"
+          >
+            <Icon name="ChevronRight" size={24} />
+          </button>
+        </>
+      )}
+
+      {/* Dots Indicator */}
+      {slides.length > 1 && (
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentSlide
+                  ? 'bg-white scale-125'
+                  : 'bg-white bg-opacity-50 hover:bg-opacity-75'
+              }`}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Slide Counter */}
+      <div className="absolute top-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm z-20 backdrop-blur-sm">
+        {currentSlide + 1} / {slides.length}
       </div>
     </section>
   );

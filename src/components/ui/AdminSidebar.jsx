@@ -38,12 +38,6 @@ const AdminSidebar = () => {
       badge: null
     },
     {
-      name: 'Website Builder',
-      path: '/website-builder',
-      icon: 'Layout',
-      badge: null
-    },
-    {
       name: 'Quotes',
       path: '/quote-management',
       icon: 'FileText',
