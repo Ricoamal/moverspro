@@ -113,11 +113,11 @@ const HeroSection = ({ isEditMode = false }) => {
         }}
       />
 
-      {/* Blue Background - Right Half Only (where text is) */}
-      <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 opacity-95" />
+      {/* Blue Background - Right Half Only (where text is) - Full width on mobile */}
+      <div className="absolute inset-y-0 right-0 w-full md:w-1/2 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 opacity-95" />
 
       {/* Subtle overlay for better text readability */}
-      <div className="absolute inset-y-0 right-0 w-1/2 bg-black bg-opacity-20" />
+      <div className="absolute inset-y-0 right-0 w-full md:w-1/2 bg-black bg-opacity-20" />
 
       {/* Edit Mode Indicator */}
       {isEditMode && (

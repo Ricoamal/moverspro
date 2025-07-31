@@ -40,10 +40,14 @@ const Preloader = () => {
   if (!isLoading) return null;
 
   return (
-    <div 
+    <div
       className={`fixed inset-0 z-[9999] flex items-center justify-center bg-white transition-opacity duration-500 ${
-        fadeOut ? 'opacity-0' : 'opacity-100'
+        fadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
+      style={{
+        visibility: fadeOut ? 'hidden' : 'visible',
+        transition: 'opacity 500ms ease-in-out, visibility 500ms ease-in-out'
+      }}
     >
       {/* Background overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-white" />

@@ -13,10 +13,10 @@ const WhatsAppButton = () => {
   };
 
   return (
-    <div className="fixed left-4 bottom-20 md:left-6 md:bottom-24 z-50">
+    <div className="whatsapp-button fixed left-4 bottom-20 md:left-6 md:bottom-24 z-40">
       {/* Tooltip */}
-      <div 
-        className={`absolute left-full ml-4 bottom-1/2 transform translate-y-1/2 bg-gray-800 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap transition-all duration-300 ${
+      <div
+        className={`whatsapp-tooltip absolute left-full ml-4 bottom-1/2 transform translate-y-1/2 bg-gray-800 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap transition-all duration-300 ${
           isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2 pointer-events-none'
         }`}
       >
@@ -56,9 +56,22 @@ const WhatsAppButton = () => {
       {/* Mobile optimization */}
       <style jsx>{`
         @media (max-width: 768px) {
-          .fixed {
-            left: 1rem;
-            bottom: 5rem;
+          .whatsapp-button {
+            left: 1rem !important;
+            bottom: 5rem !important;
+            z-index: 40 !important;
+          }
+
+          /* Hide tooltip on mobile to prevent blocking */
+          .whatsapp-tooltip {
+            display: none !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .whatsapp-button {
+            left: 0.75rem !important;
+            bottom: 4.5rem !important;
           }
         }
       `}</style>
