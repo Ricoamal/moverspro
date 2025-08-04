@@ -4,8 +4,10 @@ import Icon from '../../../components/AppIcon';
 import Button from '../../../components/ui/Button';
 import Input from '../../../components/ui/Input';
 import { Checkbox } from '../../../components/ui/Checkbox';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const LoginForm = () => {
+  const { login, register } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -16,12 +18,9 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+  const [isRegister, setIsRegister] = useState(false);
 
-  // Mock credentials for different user types
-  const mockCredentials = {
-    admin: { email: 'admin@moveease.co.ke', password: 'admin123' },
-    customer: { email: 'customer@example.com', password: 'customer123' }
-  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -65,39 +64,26 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setLoginError('');
+    setSuccessMsg('');
     if (!validateForm()) return;
-    
     setIsLoading(true);
-    
-    // Simulate API call delay
-    setTimeout(() => {
-      const { email, password } = formData;
-      
-      // Check credentials and determine user type
-      if (email === mockCredentials.admin.email && password === mockCredentials.admin.password) {
-        // Admin login
-        localStorage.setItem('userType', 'admin');
-        localStorage.setItem('userEmail', email);
-        if (formData.rememberMe) {
-          localStorage.setItem('rememberMe', 'true');
-        }
-        navigate('/admin-dashboard');
-      } else if (email === mockCredentials.customer.email && password === mockCredentials.customer.password) {
-        // Customer login
-        localStorage.setItem('userType', 'customer');
-        localStorage.setItem('userEmail', email);
-        if (formData.rememberMe) {
-          localStorage.setItem('rememberMe', 'true');
-        }
-        navigate('/cost-calculator');
+    const { email, password } = formData;
+    try {
+      if (isRegister) {
+        await register(email, password);
+        setSuccessMsg('Registration successful! Please check your email to confirm your account.');
+        setIsRegister(false);
       } else {
-        // Invalid credentials
-        setLoginError('Invalid email or password. Please try again.');
+        await login(email, password);
+        // Redirect to dashboard (customize as needed)
+        navigate('/cost-calculator');
       }
-      
+    } catch (err) {
+      setLoginError(err.message || 'Authentication failed.');
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const handleForgotPassword = () => {
@@ -139,10 +125,7 @@ const LoginForm = () => {
         {/* Mock Credentials Info */}
         <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
           <h3 className="text-sm font-medium text-blue-900 mb-2">Demo Credentials:</h3>
-          <div className="text-xs text-blue-700 space-y-1">
-            <p><strong>Admin:</strong> admin@moveease.co.ke / admin123</p>
-            <p><strong>Customer:</strong> customer@example.com / customer123</p>
-          </div>
+
         </div>
 
         {/* Login Form */}
@@ -236,13 +219,27 @@ const LoginForm = () => {
         {/* Footer Links */}
         <div className="text-center space-y-3">
           <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
-            <button
-              onClick={() => navigate('/cost-calculator')}
-              className="text-primary hover:text-blue-800 font-medium transition-smooth"
-            >
-              Get Started
-            </button>
+            {isRegister ? (
+              <>
+                Already have an account?{' '}
+                <button
+                  onClick={() => setIsRegister(false)}
+                  className="text-primary hover:text-blue-800 font-medium transition-smooth"
+                >
+                  Sign In
+                </button>
+              </>
+            ) : (
+              <>
+                Don't have an account?{' '}
+                <button
+                  onClick={() => setIsRegister(true)}
+                  className="text-primary hover:text-blue-800 font-medium transition-smooth"
+                >
+                  Register
+                </button>
+              </>
+            )}
           </p>
           
           <div className="flex items-center justify-center space-x-4 text-sm text-gray-500">

@@ -1,22 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import LoginHeader from './components/LoginHeader';
 import LoginForm from './components/LoginForm';
 import LoginBackground from './components/LoginBackground';
 
 const Login = () => {
+  const [redirectMsg, setRedirectMsg] = useState("");
   useEffect(() => {
     // Check if user is already logged in
     const userType = localStorage.getItem('userType');
     if (userType === 'admin') {
-      window.location.href = '/admin-dashboard';
+      setRedirectMsg('You are already logged in. Redirecting to your dashboard...');
+      setTimeout(() => {
+        window.location.href = '/admin-dashboard';
+      }, 1000);
     } else if (userType === 'customer') {
-      window.location.href = '/cost-calculator';
+      setRedirectMsg('You are already logged in. Redirecting to your dashboard...');
+      setTimeout(() => {
+        window.location.href = '/cost-calculator';
+      }, 1000);
     }
   }, []);
 
   return (
     <>
+      {redirectMsg && (
+        <div className="w-full bg-blue-100 border border-blue-300 text-blue-800 px-4 py-2 rounded text-center font-medium mb-4 animate-pulse">
+          {redirectMsg}
+        </div>
+      )}
       <Helmet>
         <title>Sign In - MoveEase Pro | Secure Login Portal</title>
         <meta name="description" content="Sign in to your MoveEase Pro account. Access your moving services dashboard, manage quotes, and track your moving projects securely." />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '../../../components/ui/Button';
 import Icon from '../../../components/AppIcon';
 
-const ContactForm = ({ isEditMode }) => {
+const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '../lib/supabaseClient';
 
 const AuthContext = createContext();
 
@@ -18,79 +19,59 @@ export const AuthProvider = ({ children }) => {
 
   // Check authentication status on mount
   useEffect(() => {
-    checkAuthStatus();
-  }, []);
-
-  const checkAuthStatus = () => {
-    try {
-      const userType = localStorage.getItem('userType');
-      const userEmail = localStorage.getItem('userEmail');
-      
-      if (userType && userEmail) {
-        const userData = {
-          email: userEmail,
-          type: userType,
-          isAdmin: userType === 'admin'
-        };
-        
-        setUser(userData);
+    const session = supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser(session.user);
         setIsAuthenticated(true);
-        setIsAdmin(userType === 'admin');
+        setIsAdmin(false); // You may want to set admin based on user metadata
       } else {
         setUser(null);
         setIsAuthenticated(false);
         setIsAdmin(false);
       }
-    } catch (error) {
-      console.error('Error checking auth status:', error);
-      setUser(null);
-      setIsAuthenticated(false);
-      setIsAdmin(false);
-    } finally {
       setLoading(false);
-    }
-  };
-
-  const login = (email, password, userType = 'customer') => {
-    return new Promise((resolve, reject) => {
-      // Mock authentication logic (matches existing LoginForm)
-      const mockCredentials = {
-        admin: { email: 'admin@moveease.co.ke', password: 'admin123' },
-        customer: { email: 'customer@example.com', password: 'customer123' }
-      };
-
-      setTimeout(() => {
-        if (
-          (userType === 'admin' && email === mockCredentials.admin.email && password === mockCredentials.admin.password) ||
-          (userType === 'customer' && email === mockCredentials.customer.email && password === mockCredentials.customer.password)
-        ) {
-          // Successful login
-          localStorage.setItem('userType', userType);
-          localStorage.setItem('userEmail', email);
-          
-          const userData = {
-            email,
-            type: userType,
-            isAdmin: userType === 'admin'
-          };
-          
-          setUser(userData);
-          setIsAuthenticated(true);
-          setIsAdmin(userType === 'admin');
-          
-          resolve(userData);
-        } else {
-          reject(new Error('Invalid credentials'));
-        }
-      }, 1000);
     });
+    // Listen for auth changes
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser(session.user);
+        setIsAuthenticated(true);
+        setIsAdmin(false);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+      }
+    });
+    return () => {
+      listener?.subscription.unsubscribe();
+    };
+  }, []);
+
+  const checkAuthStatus = () => {
+    // This function is now handled by the effect above
   };
 
-  const logout = () => {
-    localStorage.removeItem('userType');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('rememberMe');
-    
+  const login = async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    setUser(data.user);
+    setIsAuthenticated(true);
+    setIsAdmin(false); // Set based on your app logic
+    return data.user;
+  };
+
+  const register = async (email, password) => {
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    if (error) throw error;
+    setUser(data.user);
+    setIsAuthenticated(true);
+    setIsAdmin(false);
+    return data.user;
+  };
+
+  const logout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
     setIsAuthenticated(false);
     setIsAdmin(false);
@@ -103,6 +84,7 @@ export const AuthProvider = ({ children }) => {
     loading,
     login,
     logout,
+    register,
     checkAuthStatus
   };
 

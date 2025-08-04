@@ -3,7 +3,7 @@ import Image from '../../../components/AppImage';
 
 const LoginBackground = () => {
   return (
-    <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary to-blue-800 relative overflow-hidden">
+    <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden" style={{backgroundImage: 'url(/assets/images/images/hero-bg.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}>
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-repeat" style={{
@@ -59,24 +59,6 @@ const LoginBackground = () => {
               </div>
               <span className="text-blue-100">Complete business analytics</span>
             </div>
-          </div>
-
-          {/* Testimonial */}
-          <div className="mt-12 p-6 bg-white bg-opacity-10 rounded-xl backdrop-blur-sm">
-            <div className="flex items-center space-x-3 mb-3">
-              <Image
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face"
-                alt="Customer testimonial"
-                className="w-10 h-10 rounded-full object-cover"
-              />
-              <div>
-                <p className="font-medium text-white">James Mwangi</p>
-                <p className="text-sm text-blue-200">Swift Movers Kenya</p>
-              </div>
-            </div>
-            <p className="text-blue-100 text-sm italic">
-              "MoveEase Pro transformed our business operations. The M-Pesa integration and automated quotes have increased our efficiency by 300%."
-            </p>
           </div>
         </div>
       </div>

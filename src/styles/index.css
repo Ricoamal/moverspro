@@ -11,46 +11,7 @@ body {
   margin: unset;
 }
 
-/* Edit Mode Styles */
-.edit-mode {
-  position: relative;
-}
 
-.edit-mode section:hover {
-  outline: 2px dashed #3b82f6;
-  outline-offset: 4px;
-}
-
-.edit-mode .edit-indicator {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.edit-indicator {
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.2s ease-in-out;
-}
-
-/* Block Editor Styles */
-.block-selected {
-  outline: 2px solid #3b82f6 !important;
-  outline-offset: 2px;
-}
-
-.block-hover {
-  outline: 1px dashed #3b82f6;
-  outline-offset: 2px;
-}
-
-.block-controls {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  display: flex;
-  gap: 4px;
-  z-index: 10;
-}
 
 .block-control-btn {
   background: #3b82f6;

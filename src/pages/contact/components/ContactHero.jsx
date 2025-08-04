@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ContactHero = ({ isEditMode }) => {
+const ContactHero = () => {
   return (
     <section
       className="relative min-h-[70vh] flex items-center justify-center text-white overflow-hidden"

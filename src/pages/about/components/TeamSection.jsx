@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../../../components/AppIcon';
 
-const TeamSection = ({ isEditMode }) => {
+const TeamSection = () => {
   const teamMembers = [
     {
       name: 'John Kamau',

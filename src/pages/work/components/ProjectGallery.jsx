@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProjectGallery = ({ isEditMode }) => {
+const ProjectGallery = () => {
   const projects = [
     {
       image: '/assets/images/our-work/ourwork (1).jpg',

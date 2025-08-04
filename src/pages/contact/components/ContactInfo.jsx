@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../../../components/AppIcon';
 
-const ContactInfo = ({ isEditMode }) => {
+const ContactInfo = () => {
   const contactDetails = [
     {
       icon: 'Phone',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import CustomerHeader from '../../components/ui/CustomerHeader';
+
 import ProgressIndicator from './components/ProgressIndicator';
 import LocationSelector from './components/LocationSelector';
 import RoomSelector from './components/RoomSelector';
@@ -9,6 +9,7 @@ import QuoteSummary from './components/QuoteSummary';
 import PriceEstimateCard from './components/PriceEstimateCard';
 import Button from '../../components/ui/Button';
 import Icon from '../../components/AppIcon';
+import Header from '../../components/ui/Header';
 
 const CostCalculator = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -85,12 +86,13 @@ const CostCalculator = () => {
 
   return (
     <>
+      <Header />
       <Helmet>
         <title>Cost Calculator - MoveEase Pro</title>
         <meta name="description" content="Get instant, transparent pricing estimates for your moving needs with our interactive cost calculator." />
       </Helmet>
 
-      <CustomerHeader />
+      
       
       <div className="min-h-screen bg-gray-50 pt-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

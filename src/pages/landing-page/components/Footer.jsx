@@ -1,9 +1,7 @@
 import React from 'react';
-import { useWebsiteBuilder } from '../../../contexts/WebsiteBuilderContext';
 import Icon from '../../../components/AppIcon';
 
-const Footer = ({ isEditMode = false }) => {
-  const { setSelectedBlock } = useWebsiteBuilder();
+const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../../../components/AppIcon';
 
-const AboutHero = ({ isEditMode }) => {
+const AboutHero = () => {
   return (
     <section
       className="relative min-h-[70vh] flex items-center justify-center text-white overflow-hidden"

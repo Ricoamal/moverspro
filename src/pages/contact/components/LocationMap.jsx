@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Icon from '../../../components/AppIcon';
 
-const LocationMap = ({ isEditMode }) => {
+const LocationMap = () => {
   const [mapLoaded, setMapLoaded] = useState(false);
 
   // Nairobi coordinates (you can adjust these to your specific office location)

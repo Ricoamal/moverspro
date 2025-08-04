@@ -1,10 +1,8 @@
 import React from 'react';
-import { useWebsiteBuilder } from '../../../contexts/WebsiteBuilderContext';
 import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
 
-const ServicesSection = ({ isEditMode = false }) => {
-  const { setSelectedBlock } = useWebsiteBuilder();
+const ServicesSection = () => {
   const services = [
     {
       id: 1,
@@ -56,35 +54,12 @@ const ServicesSection = ({ isEditMode = false }) => {
     }
   ];
 
-  const handleSectionClick = () => {
-    if (isEditMode) {
-      const servicesBlock = {
-        id: 'services-section',
-        type: 'services_grid',
-        content: {
-          title: 'Our Moving Services',
-          description: 'From residential moves to commercial relocations, we provide comprehensive moving solutions tailored to your specific needs.',
-          services: services
-        }
-      };
-      setSelectedBlock(servicesBlock);
-    }
-  };
+
 
   return (
     <section
       id="services-section"
-      className={`py-16 lg:py-20 bg-white relative ${
-        isEditMode ? 'cursor-pointer hover:ring-2 hover:ring-primary hover:ring-opacity-50 transition-all' : ''
-      }`}
-      onClick={handleSectionClick}>
-      {/* Edit Mode Indicator */}
-      {isEditMode && (
-        <div className="absolute top-4 left-4 z-10 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
-          <Icon name="Edit" size={14} className="inline mr-1" />
-          Services Section
-        </div>
-      )}
+      className="py-16 lg:py-20 bg-white relative">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}

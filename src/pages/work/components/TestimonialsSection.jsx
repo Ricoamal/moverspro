@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../../../components/AppIcon';
 
-const TestimonialsSection = ({ isEditMode }) => {
+const TestimonialsSection = () => {
   const testimonials = [
     {
       name: 'Mary Njeri',

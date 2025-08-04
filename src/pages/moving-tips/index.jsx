@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import CustomerHeader from '../../components/ui/CustomerHeader';
+
 import Footer from '../landing-page/components/Footer';
 import Icon from '../../components/AppIcon';
 
@@ -90,7 +90,7 @@ const MovingTipsPage = () => {
       </Helmet>
 
       <div className="min-h-screen bg-white">
-        <CustomerHeader />
+        
         
         {/* Hero Section */}
         <section 

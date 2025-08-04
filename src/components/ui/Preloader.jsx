@@ -65,7 +65,7 @@ const Preloader = () => {
           {/* Logo in center */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <img 
-              src="/assets/images/logos/preloader.jpg.png" 
+              src="/assets/images/logos/preloader.png" 
               alt="Longonot Movers" 
               className="w-16 h-16 object-contain animate-pulse"
             />
@@ -74,7 +74,7 @@ const Preloader = () => {
         
         {/* Loading text */}
         <div className="mt-8 text-center">
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">Loading MoveEase Pro</h3>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Loading Longonot Movers</h3>
           <div className="flex items-center justify-center space-x-1">
             <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
             <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>

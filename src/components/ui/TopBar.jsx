@@ -12,7 +12,7 @@ const TopBar = () => {
   ];
 
   return (
-    <div className="bg-primary text-white py-2 overflow-hidden relative">
+    <div className="bg-[#392732] text-white py-2 overflow-hidden relative">
       <div className="marquee-container">
         <div className="marquee-content">
           {/* First set of items */}

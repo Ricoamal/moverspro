@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../../../components/AppIcon';
 
-const ServicesList = ({ isEditMode }) => {
+const ServicesList = () => {
   const services = [
     {
       icon: 'Home',
